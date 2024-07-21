@@ -1,6 +1,4 @@
-Here's a template for your README file for the "Face Vision" video chatting application. You can customize it as needed.
 
----
 
 # Face Vision
 
