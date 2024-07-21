@@ -1,11 +1,7 @@
 const { Server } = require("socket.io");
-const express = require('express');
-const http = require('http');
 
-const app = express();
-const server = http.createServer(app);
-
-const io = new Server(server, {
+const PORT = process.env.PORT || 8000;
+const io = new Server(PORT, {
     cors: {
         origin: "*",
     },
@@ -14,9 +10,9 @@ const io = new Server(server, {
 const emailToSocketIdMap = new Map();
 const socketIDToMap = new Map();
 
-io.on('connection', (socket) => {
+io.on('connection', socket => {
     console.log('Socket Connected', socket.id);
-    
+
     socket.on("room:join", (data) => {
         const { email, room } = data;
         emailToSocketIdMap.set(email, socket.id);
@@ -41,9 +37,4 @@ io.on('connection', (socket) => {
     socket.on('peer:nego:done', ({ to, answer }) => {
         io.to(to).emit("peer:nego:final", { from: socket.id, answer });
     });
-});
-
-const PORT = process.env.PORT || 8000;
-server.listen(PORT, () => {
-    console.log(`Server listening on port ${PORT}`);
 });
