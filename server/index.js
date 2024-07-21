@@ -4,6 +4,9 @@ const http = require('http');
 
 const app = express();
 const server = http.createServer(app);
+app.get('/', (req, res) => {
+    res.send('Welcome to the server!');
+  });
 
 const io = new Server(server, {
     cors: {
