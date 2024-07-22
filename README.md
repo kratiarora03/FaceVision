@@ -34,7 +34,7 @@ Face Vision is a real-time video chatting application built using React, Node.js
 ![Screenshot 2024-07-22 004305](https://github.com/user-attachments/assets/aa0215ab-8f8e-4188-99a7-cd6bf398429c)
 
 ![Screenshot 2024-07-22 004330](https://github.com/user-attachments/assets/afc764d3-9c12-4f31-8821-db3b9459a8cb)
-![image](https://github.com/user-attachments/assets/bbcc22ea-1aaa-4ea9-9f3e-072e696f3c5d)
+
 
 
 
