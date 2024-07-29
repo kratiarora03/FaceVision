@@ -4,13 +4,15 @@ const http = require('http');
 
 const app = express();
 const server = http.createServer(app);
+
 app.get('/', (req, res) => {
     res.send('Welcome to the server!');
-  });
+});
 
 const io = new Server(server, {
     cors: {
-        origin: "*",
+        origin: "https://face-vision.vercel.app", // Updated to allow the specific origin
+        methods: ["GET", "POST"], // Allowing common HTTP methods
     },
 });
 
@@ -44,7 +46,22 @@ io.on('connection', (socket) => {
     socket.on('peer:nego:done', ({ to, answer }) => {
         io.to(to).emit("peer:nego:final", { from: socket.id, answer });
     });
+
+    socket.on('disconnect', () => {
+        const email = socketIDToMap.get(socket.id);
+        if (email) {
+            emailToSocketIdMap.delete(email);
+            socketIDToMap.delete(socket.id);
+        }
+        console.log('Socket Disconnected', socket.id);
+    });
 });
+
+const PORT = process.env.PORT || 8000;
+server.listen(PORT, () => {
+    console.log(`Server listening on port ${PORT}`);
+});
+
 
 const PORT = process.env.PORT || 8000;
 server.listen(PORT, () => {
