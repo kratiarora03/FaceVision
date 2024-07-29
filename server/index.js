@@ -12,13 +12,8 @@ app.get('/', (req, res) => {
 
 const io = new Server(server, {
     cors: {
-<<<<<<< HEAD
         origin: "https://face-vision.vercel.app",
         methods: ["GET", "POST"],
-=======
-        origin: "https://face-vision.vercel.app", // Updated to allow the specific origin
-        methods: ["GET", "POST"], // Allowing common HTTP methods
->>>>>>> 25269953eaf22d465533781f8a5c46530878c660
     },
 });
 
@@ -63,11 +58,6 @@ io.on('connection', (socket) => {
     });
 });
 
-<<<<<<< HEAD
-=======
-// Ensure PORT is declared only once
-const PORT = 8000;
->>>>>>> 25269953eaf22d465533781f8a5c46530878c660
 server.listen(PORT, () => {
     console.log(`Server listening on port ${PORT}`);
 });
