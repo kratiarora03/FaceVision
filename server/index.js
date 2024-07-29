@@ -1,20 +1,33 @@
-const { Server } = require("socket.io");
 const express = require('express');
 const http = require('http');
-const { PORT } = require('./config'); // Import PORT from config
+const cors = require('cors');
+const { Server } = require("socket.io");
 
 const app = express();
-const server = http.createServer(app);
 
+// Use CORS middleware
+app.use(cors({
+  origin: [
+    'https://face-vision.vercel.app',
+    'https://face-vision-7tfipnsdq-krati-s-projects.vercel.app'
+  ],
+  methods: ['GET', 'POST'],
+  allowedHeaders: ['Content-Type']
+}));
+
+const server = http.createServer(app);
 app.get('/', (req, res) => {
     res.send('Welcome to the server!');
 });
 
 const io = new Server(server, {
-    cors: {
-        origin: "https://face-vision.vercel.app",
-        methods: ["GET", "POST"],
-    },
+  cors: {
+    origin: [
+      'https://face-vision.vercel.app',
+      'https://face-vision-7tfipnsdq-krati-s-projects.vercel.app'
+    ],
+    methods: ['GET', 'POST']
+  }
 });
 
 const emailToSocketIdMap = new Map();
@@ -47,18 +60,9 @@ io.on('connection', (socket) => {
     socket.on('peer:nego:done', ({ to, answer }) => {
         io.to(to).emit("peer:nego:final", { from: socket.id, answer });
     });
-
-    socket.on('disconnect', () => {
-        const email = socketIDToMap.get(socket.id);
-        if (email) {
-            emailToSocketIdMap.delete(email);
-            socketIDToMap.delete(socket.id);
-        }
-        console.log('Socket Disconnected', socket.id);
-    });
 });
 
+const PORT = process.env.PORT || 8000;
 server.listen(PORT, () => {
     console.log(`Server listening on port ${PORT}`);
 });
-
